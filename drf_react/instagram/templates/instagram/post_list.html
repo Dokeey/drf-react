@@ -1,3 +1,6 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
 <!doctype html>
 <html>
 <head>
@@ -20,10 +23,17 @@
                         NO PHOTO
                     {% endif %}
                 </td>
-                <td>{{ post.message }}</td>
+                <td>
+                    <a href="{{ post.get_absolute_url }}">
+                    {{ post.message }}
+                        </a>
+                </td>
             </tr>
     {% endfor %}
         </tbody>
     </table>
+    {{ is_pagenated }}
+
+    {% bootstrap_pagination page_obj size="small" justify_content="center" %}
 </body>
 </html>

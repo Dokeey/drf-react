@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -16,7 +17,11 @@ class Post(models.Model):
 
     def message_length(self):
         return f"{len(self.message)} 글자"
+
     message_length.short_description = '메세지 글자수'
+
+    def get_absolute_url(self):
+        return reverse('instagram:post_detail', args=[self.pk])
 
     class Meta:
         ordering = ['-id']
