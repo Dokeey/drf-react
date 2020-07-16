@@ -1,39 +1,33 @@
+{% extends "instagram/layout.html" %}
 {% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Instagram / Post List</title>
-</head>
-<body>
-    <form action="" method="GET">
-        <input type="text" name="q" value="{{ q }}"/>
-        <input type="submit" value="검색">
-    </form>
-    <table>
-        <tbody>
-    {% for post in post_list %}
-            <tr>
-                <td>
-                    {% if post.photo %}
-                        <img src="{{ post.photo.url }}" style="width: 300px">
-                    {% else %}
-                        NO PHOTO
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{{ post.get_absolute_url }}">
-                    {{ post.message }}
-                        </a>
-                </td>
-            </tr>
-    {% endfor %}
-        </tbody>
-    </table>
-    {{ is_pagenated }}
 
+{% block title %}
+{% endblock title %}
+
+{% block content %}
+    <body>
+
+    <form action="" , method="get">
+        <input type="text" , name='p' , value="{{ p }}">
+        <input type="submit">
+    </form>
+
+    {% for list in post_list %}
+    <h2>
+        <a href="{{ list.get_absolute_url }}">
+            {{ list.pk }} {{ list.message }}
+        </a>
+    </h2>
+    {% if list.photo %}
+    <img src="{{ list.photo.url }}" style="width:100px"/>
+    {% else %}
+    no photo
+    {% endif %}
+    {% endfor %}
+
+    {% if is_paginated %}
     {% bootstrap_pagination page_obj size="small" justify_content="center" %}
-</body>
-</html>
+    {% endif %}
+
+    </body>
+{% endblock content %}
