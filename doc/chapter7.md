@@ -21,4 +21,5 @@
     - jQuery
       - 프론트엔드의 호환성 유틸리티 라이브러리. 서버와의 Ajax요청과 간단한 DOM 처리를 위해 사용
     - Bootstrap4
-- GIT : 
+- GIT : https://github.com/Dokeey/drf-react
+

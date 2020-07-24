@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'bootstrap4',
+    'django_pydenticon',
     'accounts',
-    'bootstrap4'
+    'instagram',
 ]
 
 MIDDLEWARE = [

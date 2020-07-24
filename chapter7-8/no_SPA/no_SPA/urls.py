@@ -1,3 +1,4 @@
+from django_pydenticon.views import image as pydenticon_image
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -9,6 +10,8 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),
+    path('', include('instagram.urls')),
     path('', login_required(TemplateView.as_view(template_name='root.html')), name='root')
 ]
 
