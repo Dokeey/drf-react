@@ -30,15 +30,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Django App
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    # Third App
     'debug_toolbar',
     'bootstrap4',
     'django_pydenticon',
+    'easy_thumbnails',
+    # Locals App
     'accounts',
     'instagram',
 ]
