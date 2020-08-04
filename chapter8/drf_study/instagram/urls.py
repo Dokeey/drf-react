@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register('post', views.PostViewSet)  # 2개의 URL을 만들어줌
 
 urlpatterns = [
-    path('public/', views.post_list),
+    # path('public/', views.post_list),
     path('', include(router.urls)),
 ]
