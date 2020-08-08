@@ -11,7 +11,7 @@ db.sqlite3
 media
 .idea
 *migrations
-dev_run*
+*dev_run*
 backup*
 .vscode/*
 docker*
@@ -206,7 +206,7 @@ dmypy.json
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 !Dockerrun.aws.json
-!Dockerfile
+*Dockerfile*
 .ebignore
 .dockerignore
 
