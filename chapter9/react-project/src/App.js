@@ -3,6 +3,8 @@ import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import ThemedButton from 'ThemedButton';
 import Counter, { TestCounter } from 'Counter';
+import Message from 'Message';
+import Profile from 'Proflie';
 import 'App.css';
 
 const actions = {
@@ -178,6 +180,8 @@ function App() {
       <TestApp />
       <hr />
       <ClickCounter />
+      <Profile />
+      <Message />
     </div>
   );
 }
