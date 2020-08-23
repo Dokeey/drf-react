@@ -2,170 +2,99 @@
 
 ## Chapter 9. 리액트 기초 익히기
 
-### CSS를 적용하는 다양한 방법
+### immer를 활용한 손쉬운 불변객체 다루기
 
-- 리액트에서의 CSS
+- 불변성(immutable)
 
-  - 전통적인 방법
-    - CSS를 별도 파일에 저장
-    - link태그를 통해 웹페이지에 포함
-    - 이는 전역설정이 되며 컴포넌트 간에 예기치 않은 스타일이 적용될 수 있음
-  - 컴포넌트 중심으로 생각하고 CSS도 컴포넌트 내부에서 관리/적용
+  - 리액트에서는 불변성을 유지하면서, 상탯값을 업데이트해야만 한다.
+  - immer를 활용하면 그나마 편해짐
 
-- CSS파일을 직접 적용
+- immer 설치
 
-  - 나중에 import한 css파일로 덮어씌워질 수있음
+  - `yarn add immer`
 
-- css-module 활용
-
-  - 모듈방식으로 접근하기에 클래스명 중복을 방지할 수 있음
-
-- Sass 활용
-
-  - 설치
-    - `yarn add --dev node-sass`
-  - 변수, 연산, 믹스인/인자, 중첩, 문자 보간, 임포트, 각종 함수 등을 지원
-  - 나머지는 css module 방식과 동일
-
-- css-in-js 라이브러리 중 styled-component 활용
-
-  - CSS코드를 JS 코드로 관리할 수 있다는 장점
-
-  - 설치
-
-    - `yarn add --dev styled-component`
+- test code
 
   - ```javascript
-    import React from 'react';
+    const { produce } = require('immer');
     
-    class Wrapper extends React.Component {
-      render() {
-        return (
-          <section style={{ padding: '4em', background: 'papayawhip' }}>
-            {this.props.children}
-          </section>
-        );
-      }
-    }
+    const fruits = ['오렌지', '사과', '바나나', '레몬'];
     
-    class Title extends React.Component {
-      render() {
-        const fontSize = this.props.isBig ? '3em' : '1.5em';
-        return (
-          <h1 style={{ fontSize, textAlign: 'center', color: 'palevioletred' }}>
-            {this.props.children}
-          </h1>
-        );
-      }
-    }
+    const newF = produce(fruits, (draft) => {
+      draft.splice(1, 2, '딸기');
+    });
     
-    function App2() {
-      return (
-        <Wrapper>
-          <Title>Random Chatting</Title>
-        </Wrapper>
-      );
-    }
-    
-    export default App2;
-    
+    console.log(newF);
     ```
 
-  
+- test code 2
 
-### Todo list 만들어보기
+  - ```javascript
+    const baseState = [
+      { todo: '배우자 ES6', done: true },
+      { todo: '시도하자 immer', done: false },
+    ];
+    
+    // immer를 안쓸경우
+    const newState0 = [
+      ...baseState.map((tweet, index) =>
+        index === 1 ? { ...tweet, done: true } : tweet,
+      ),
+      { todo: 'Tweet about it' },
+    ];
+    
+    // immer를 쓸경우
+    const newState = produce(baseState, (draft) => {
+      draft[1].done = true;
+      draft.push({ todo: 'Tweet about it' });
+    });
+    
+    console.log(newState0);
+    console.log(newState);
+    ```
 
-- ```javascript
-  import React from 'react';
-  import { Input, List } from 'antd';
-  
-  // class TodoItem extends React.Component {
-  //   render() {
-  //     const { todo } = this.props;
-  //     return <li>{todo}</li>;
-  //   }
-  // }
-  
-  // const TodoItem = ({ todo }) => <li>{todo}</li>;
-  
-  class TodoList extends React.Component {
-    state = {
-      todoList: ['파이썬 익히기', '장고'],
-      current: '',
-      flag: [true, -1],
-    };
-    onChange = (e) => {
-      const { value } = e.target;
-      this.setState({
-        current: value,
-      });
-      console.log(value);
-    };
-    onKeyDown = (e) => {
-      if (e.keyCode === 13) {
-        const { todoList, current, flag } = this.state;
-        if (current.trim().length > 0) {
-          if (flag[0] === true) {
-            this.setState({
-              current: '',
-              todoList: [...todoList, current.trim()],
-            });
-          } else {
-            todoList[flag[1]] = current.trim();
-            this.setState({
-              current: '',
-              todoList: [...todoList],
-              flag: [true, -1],
-            });
-          }
-        }
-      }
-    };
-    update = (index) => {
-      const { todoList } = this.state;
-      this.setState({
-        current: todoList[index],
-        flag: [false, index],
-      });
-    };
-    delete = (index) => {
-      const todo = this.state.todoList;
-      todo.splice(index, 1);
-      this.setState({
-        todoList: [...todo],
-      });
-    };
-    render() {
-      return (
-        <div style={{ width: '500px', margin: '30px auto' }}>
-          <List
-            header={'Todo List'}
-            dataSource={this.state.todoList}
-            bordered={true}
-            renderItem={(todo, index) => (
-              <List.Item actions={[<a onClick={() => this.delete(index)}>X</a>]}>
-                <div onClick={() => this.update(index)}>{todo}</div>
-              </List.Item>
-            )}
-            style={{
-              marginBottom: '4px',
-            }}
-          />
-          <Input
-            type="text"
-            value={this.state.current}
-            placeholder="할일을 입력하세요"
-            onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
-          />
-        </div>
-      );
-    }
-  }
-  
-  export default TodoList;
-  
-  ```
+### 클래스 컴포넌트, 생명주기
 
+- constructor
 
+  - 생성자
+  - 초기 속성값으로부터 상탯값을 만들어낼 때 구현
+  - 생성자 내에서의 setState 호출은 무시 ( mount 이후에만 유효 )
 
+- getDerivedStateFromProps
+
+  - 정적 메서드로서 this 객체 접근을 원천적으로 봉쇄
+  - 속성값 변화에 따라 외부 API 호출이 필요하다면
+    - componentDidUpdate에서 구현
+  - 속성값을 계산하여 상탯값에 반영이 필요할때
+    - 메모이제이션이 필요
+    - render에서 lodash/momoize 패키치 활용 추천
+
+- render
+
+  - 화면에 보여질 내용을 반환
+    - 반환 가능 타입 : 리액트 컴포넌트, 배열, 문자열/숫자, null/bool 등
+    - 속성값과 상태값만으로 반환값 결정
+    - 순수함수로 구현, setState호출하지 않기
+    - No side effects
+  - 컴포넌트를 다른 특정 DOM요소에 렌더링이 필요할때
+    - ReactDOM.createPortal 사용
+      - modal 처리시 유용
+
+- componentDidMount
+
+  - 이벤트 리스너 등록이 필요할 때
+  - 직접적으로 setState가 필요하다면, Render 단계에서 수행
+
+- 클래스형 컴포넌트 추천 작성 순서
+
+  > 실전 리액트 프로그래밍, p166
+
+  - propTypes 타입 정의
+  - state 초기화
+  - render를 제외한 생명주기 메서드
+  - 생명주기 메서드를 제외한 나머지 메서드
+  - render 메서드
+  - 컴퍼넌트 외부에서 정의하는 변수와 함수
+
+- 
