@@ -209,6 +209,7 @@ dmypy.json
 *Dockerfile*
 .ebignore
 .dockerignore
+*pylib*
 
 .DS_Store
 run_dev*

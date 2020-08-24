@@ -1,10 +1,13 @@
 import React, { useReducer } from 'react';
 
+const SET_NAME = "SET_NAME"
+const SET_AGE = "SET_AGE"
+
 const reducer = (prevState, action) => {
   const { type, value } = action;
-  if (type === 'SET_NAME') {
+  if (type === SET_NAME) {
     return { ...prevState, myname: value };
-  } else if (type === 'SET_AGE') {
+  } else if (type === SET_AGE) {
     return { ...prevState, age: value };
   }
   return prevState;

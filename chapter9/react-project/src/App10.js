@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Route, Switch } from 'react-router-dom';
+import queryString from 'query-string';
 
 const App = () => {
   return (
@@ -64,9 +65,12 @@ const AboutCompanyPage = ({ history, location, match }) => {
 };
 
 const ProfilePage = ({ history, location, match }) => {
+  const { token } = queryString.parse(location.search);
+
   return (
     <div>
       <h1>Profile</h1>
+      token: {token}
     </div>
   );
 };

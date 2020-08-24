@@ -12,7 +12,7 @@ const App = () => {
 };
 
 const App2Wrapper = () => {
-  const message = useContext(MessageContext);
+  const message = useContext(MessageContext); // getter
   return (
     <div>
       <App2 message={message} />
