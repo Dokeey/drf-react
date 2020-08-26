@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import Axios from "axios";
+import { axiosInstance } from "api";
 
 export default function Signup() {
   const history = useHistory();
@@ -12,9 +12,12 @@ export default function Signup() {
     async function fn() {
       const { username, password } = values;
 
+      setFieldErrors({});
+
       const data = { username, password };
       try {
-        await Axios.post("http://localhost/accounts/signup/", data);
+        await axiosInstance.post("/accounts/signup/", data);
+
         notification.open({
           message: "회원가입 성공",
           description: "로그인 페이지로 이동합니다.",
@@ -23,7 +26,6 @@ export default function Signup() {
 
         history.push("/accounts/login");
       } catch (error) {
-        console.log(error);
         if (error.response) {
           notification.open({
             message: "회원가입 실패",
@@ -32,12 +34,12 @@ export default function Signup() {
           });
 
           const { data: fieldsErrorMessages } = error.response;
-          // fieldsErrorMessages => { username: "m1 m2", password: []}
+          // fieldsErrorMessages => { username: "m1 m2", password: [] }
           // python: mydict.items()
           setFieldErrors(
             Object.entries(fieldsErrorMessages).reduce(
               (acc, [fieldName, errors]) => {
-                // errors : ["m1", "m2"].join(" ") => "m1 m2"
+                // errors : ["m1", "m2"].join(" ") => "m1 "m2"
                 acc[fieldName] = {
                   validateStatus: "error",
                   help: errors.join(" "),
@@ -52,18 +54,20 @@ export default function Signup() {
     }
     fn();
   };
+
   return (
     <Form
       {...layout}
       onFinish={onFinish}
       //   onFinishFailed={onFinishFailed}
+      autoComplete={"false"}
     >
       <Form.Item
         label="Username"
         name="username"
         rules={[
           { required: true, message: "Please input your username!" },
-          { min: 5, message: "5글자 이상 입력해주세요." },
+          { min: 5, message: "5글자 입력해주세요." },
         ]}
         hasFeedback
         {...fieldErrors.username}

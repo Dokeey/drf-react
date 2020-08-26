@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from "react";
 import useReducerWithSideEffects, {
   UpdateWithSideEffect,
-  Update,
 } from "use-reducer-with-side-effects";
 import { getStorageItem, setStorageItem } from "utils/useLocalStorage";
 

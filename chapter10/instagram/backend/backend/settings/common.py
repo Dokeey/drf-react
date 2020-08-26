@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third apps
     'corsheaders',
+    'django_pydenticon',
     'rest_framework',
     # local apps
     'instagram',
@@ -147,7 +148,7 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY, # FIXME: JWT_SECRET_KEY
     'JWT_ALGORITHM': 'HS256',
     'JWT_ALLOW_REFRESH': False,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=30000),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
 
