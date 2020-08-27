@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 function Home() {
   const history = useHistory();
   const handleClick = () => {
-    history.pushState("/posts/new");
+    history.push("/posts/new");
   };
   const sidebar = (
     <>

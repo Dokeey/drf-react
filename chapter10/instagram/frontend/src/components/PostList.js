@@ -13,10 +13,13 @@ function PostList() {
 
   const headers = { Authorization: `JWT ${jwtToken}` };
 
-  const [{ data: originPostList, loading, error }, refetch] = useAxios({
-    url: "/api/posts/",
-    headers,
-  });
+  const [{ data: originPostList, loading, error }, refetch] = useAxios(
+    {
+      url: "/api/posts/",
+      headers,
+    },
+    { useCache: false }
+  );
 
   useEffect(() => {
     setPostList(originPostList);
